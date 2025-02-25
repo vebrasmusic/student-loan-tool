@@ -16,11 +16,6 @@ export default function LoanSummaryPage({ params }: { params: Promise<{ slug: st
         return loans[slug];
     }, [loans, slug])
 
-    const projections = useMemo(() => {
-        if (!thisLoan) return;
-        return getProjectedLoan(thisLoan, 10, 200)
-    }, [thisLoan])
-
     return (
         <div className="flex flex-col gap-4 items-center">
             Current: {thisLoan?.balance} {thisLoan?.interest}
