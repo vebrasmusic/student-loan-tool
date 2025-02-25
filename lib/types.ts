@@ -4,6 +4,7 @@ export type LoanGroup = {
 
 export type LoanData = {
     id: string,
+    label: string,
     principal: number,
     balance: number,
     interest: number,
@@ -12,6 +13,7 @@ export type LoanData = {
 
 export type Loan = {
     id: string,
+    label: string,
     principal: number,
     balance: number,
     interest: number,

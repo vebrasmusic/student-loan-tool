@@ -16,7 +16,6 @@ import { H1 } from "@/components/typography/h1";
 export default function Loans() {
 
   const router = useRouter();
-  const { toast } = useToast();
   const [parent] = useAutoAnimate();
 
   const [loans, setLoans] = useImmerAtom(loansAtom);
@@ -27,14 +26,12 @@ export default function Loans() {
   function handleEditExistingLoan() {
     setLoans((draft) => {
       if (!editingId || !stagingLoan) return draft;
-      if (stagingLoan.id !== editingId) {
-        delete draft[editingId];
-      }
       draft[stagingLoan.id] = {
         id: stagingLoan.id,
+        label: stagingLoan.label,
         principal: stagingLoan.principal,
-        balance: Number((stagingLoan.balance > 0 ? 
-          stagingLoan.balance : 
+        balance: Number((stagingLoan.balance > 0 ?
+          stagingLoan.balance :
           stagingLoan.principal + stagingLoan.interest).toFixed(2)),
         interest: stagingLoan.interest,
         interestRate: stagingLoan.interestRate
@@ -49,9 +46,10 @@ export default function Loans() {
     setLoans((draft) => {
       draft[stagingLoan.id] = {
         id: stagingLoan.id,
+        label: stagingLoan.label,
         principal: stagingLoan.principal,
-        balance: Number((stagingLoan.balance > 0 ? 
-          stagingLoan.balance : 
+        balance: Number((stagingLoan.balance > 0 ?
+          stagingLoan.balance :
           stagingLoan.principal + stagingLoan.interest).toFixed(2)),
         interest: stagingLoan.interest,
         interestRate: stagingLoan.interestRate
@@ -62,7 +60,8 @@ export default function Loans() {
 
   function handleCreateNewLoan() {
     setStagingLoan({
-      id: '',
+      id: crypto.randomUUID(),
+      label: '',
       principal: 0,
       balance: 0,
       interest: 0,
@@ -171,11 +170,11 @@ function LoanForm({ loanId, loanData, editingId, setEditingId, setStagingLoan, s
 
   const inputs: LoanInputProps[] = [
     {
-      label: "ID",
+      label: "Label",
       type: "text",
-      defaultValue: loanId,
-      placeholder: "Enter loan ID",
-      onChange: (e) => handleInputChange(e.target.value, "id")
+      defaultValue: loanData.label,
+      placeholder: "Enter loan label",
+      onChange: (e) => handleInputChange(e.target.value, "label")
     },
     {
       label: "Principal",
@@ -229,6 +228,7 @@ function LoanForm({ loanId, loanData, editingId, setEditingId, setStagingLoan, s
           setEditingId(loanId);
           setStagingLoan({
             id: loanId,
+            label: loanData.label,
             principal: loanData.principal,
             balance: loanData.balance,
             interest: loanData.interest,
