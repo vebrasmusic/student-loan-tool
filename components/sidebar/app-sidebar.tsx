@@ -1,7 +1,7 @@
-"use client"
-import { atom } from "jotai/vanilla"
+"use client";
+import { atom } from "jotai/vanilla";
 
-import * as React from "react"
+import * as React from "react";
 import {
   AudioWaveform,
   BookOpen,
@@ -13,21 +13,21 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-} from "lucide-react"
+} from "lucide-react";
 
-import { NavMain } from "@/components/sidebar/nav-main"
-import { NavProjects } from "@/components/sidebar/nav-projects"
-import { NavUser } from "@/components/sidebar/nav-user"
-import { TeamSwitcher } from "@/components/sidebar/team-switcher"
+import { NavMain } from "@/components/sidebar/nav-main";
+import { NavProjects } from "@/components/sidebar/nav-projects";
+import { NavUser } from "@/components/sidebar/nav-user";
+import { TeamSwitcher } from "@/components/sidebar/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
   SidebarRail,
-} from "@/components/ui/sidebar"
-import { useAtom, useAtomValue } from "jotai/react"
-import { loansAtom } from "@/atoms/loans"
+} from "@/components/ui/sidebar";
+import { useAtom, useAtomValue } from "jotai/react";
+import { loansAtom } from "@/atoms/loans";
 
 // This is sample data.
 const data = {
@@ -52,12 +52,12 @@ const data = {
       logo: Command,
       plan: "Free",
     },
-  ]
-}
+  ],
+};
 
 // Create a derived atom that transforms loans into nav items
 const navItemsAtom = atom((get) => {
-  const loans = get(loansAtom)
+  const loans = get(loansAtom);
   return [
     {
       title: "Loans",
@@ -66,14 +66,13 @@ const navItemsAtom = atom((get) => {
       isActive: true,
       items: Object.values(loans).map((loanData) => ({
         title: loanData.label,
-        url: `${loanData.id}`
-      }))
-    }
-  ]
-})
+        url: `${loanData.id}`,
+      })),
+    },
+  ];
+});
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-
   const navMain = useAtomValue(navItemsAtom);
 
   return (
@@ -89,5 +88,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
